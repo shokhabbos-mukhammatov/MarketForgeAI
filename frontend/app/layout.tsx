@@ -15,14 +15,15 @@ export default function RootLayout({
 }) {
   const pathname = usePathname();
   const isScrollable = pathname === '/' || pathname === '/profile';
+  const hideNavigation = pathname === '/docs' || pathname === '/company-details';
 
   return (
     <html lang="en" className="dark">
       <body className={`${inter.className} bg-black text-white ${isScrollable ? 'scrollable' : 'no-scroll'}`}>
-        <main className="pb-20">
+        <main className={hideNavigation ? '' : 'pb-20'}>
           {children}
         </main>
-        <Navigation />
+        {!hideNavigation && <Navigation />}
       </body>
     </html>
   );

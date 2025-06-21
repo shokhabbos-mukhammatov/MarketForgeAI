@@ -56,10 +56,104 @@
   @apply bg-gradient-to-r from-white via-blue-100 to-slate-200 bg-clip-text text-transparent;
 }
 
+/* Hide scrollbars completely for all browsers */
 .scrollable {
   overflow-y: auto;
+  /* Firefox */
+  scrollbar-width: none;
+  /* IE and Edge */
+  -ms-overflow-style: none;
+}
+
+/* Chrome, Safari and Opera */
+.scrollable::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+.scrollable::-webkit-scrollbar-track {
+  display: none;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+.scrollable::-webkit-scrollbar-corner {
+  display: none;
 }
 
 .no-scroll {
   overflow-y: hidden;
+}
+
+/* Make specific pages scrollable */
+.page-scrollable {
+  overflow-y: auto;
+  height: 100vh;
+  /* Firefox */
+  scrollbar-width: none;
+  /* IE and Edge */
+  -ms-overflow-style: none;
+}
+
+/* Chrome, Safari and Opera */
+.page-scrollable::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+.page-scrollable::-webkit-scrollbar-track {
+  display: none;
+}
+
+.page-scrollable::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+.page-scrollable::-webkit-scrollbar-corner {
+  display: none;
+}
+
+/* Global scrollbar hiding for all elements */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+*::-webkit-scrollbar-track {
+  display: none;
+}
+
+*::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+*::-webkit-scrollbar-corner {
+  display: none;
+}
+
+/* Ensure body and html don't show scrollbars */
+html, body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+  background: transparent;
 }

@@ -87,7 +87,7 @@ export default function Dashboard() {
                 <Zap className="w-6 h-6 text-blue-400" />
               </div>
               <div>
-                <h1 className="text-xl font-medium text-gradient">MarketForge</h1>
+                <h1 className="text-xl font-medium text-gradient">MarketForge AI</h1>
                 <p className="text-sm text-slate-400">{greeting}, {username}</p>
               </div>
             </div>
