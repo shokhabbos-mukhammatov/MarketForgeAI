@@ -54,28 +54,38 @@ export default function MarketForgeWizard() {
   const [status, setStatus] = useState<JobStatus | null>(null);
   const [report, setReport] = useState<Report | null>(null);
 
-  /* ------------------------------------------------------------------
- * 1️⃣  Create job  (POST /api/analyze)
- * ------------------------------------------------------------------ */
-const handleSubmit = async () => {
+  
+  const handleSubmit = async () => {
     try {
+      // Add industry input field or infer from business name
+      const industryCategory = task === 'market-analysis' ? 'business analysis' : 
+                             name.toLowerCase().includes('bakery') ? 'bakery' :
+                             name.toLowerCase().includes('restaurant') ? 'restaurant' :
+                             name.toLowerCase().includes('tech') ? 'technology' :
+                             'general business';
+      
       const res = await fetch('http://localhost:5000/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, website, categories: task })
+        body: JSON.stringify({ 
+          name, 
+          website, 
+          categories: industryCategory,  // Send actual industry, not task type
+          task: task  // Send task separately
+        })
       });
       
       if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
       
       const json = await res.json();
       setJobId(json.jobId);
       setStatus({ status: 'queued', progress: 0 });
-      setStep(3); // jump to progress screen
+      setStep(3);
     } catch (error) {
       console.error('Analysis failed:', error);
-      alert(`Failed to start analysis: ${error.message}`);
+      alert(`Analysis failed: ${error.message}`);
     }
   };
   
