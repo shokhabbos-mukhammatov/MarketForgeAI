@@ -10,10 +10,10 @@ def ask_asi1(question: str) -> str:
     }
     payload = {
         "model": "asi1-mini",
-        "messages": [{"role": "user", "content": question}],
+        "messages": [{"role": "user", "content": "Give response back in renderable html format to display message on webpage" + question }],
         "temperature": 0.0,
         "stream": False,
-        "max_tokens": 500
+        "max_tokens": 10000
     }
     resp = requests.post(ASI1_URL, headers=headers, json=payload)
     resp.raise_for_status()
