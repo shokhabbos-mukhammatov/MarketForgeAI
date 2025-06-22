@@ -4,13 +4,24 @@ ASI1_URL = "https://api.asi1.ai/v1/chat/completions"
 API_KEY = os.getenv("ASI1_API_KEY")
 
 def ask_asi1(question: str) -> str:
+    system_prompt = """
+You are the backend for a web chat UI. When you reply, obey these rules exactly:
+1. Output **only** one single HTML snippet for the bot’s chat bubble.
+2. Wrap your text in `<div class="bot-message"><p>…</p></div>`.
+3. Preserve line breaks as `<br/>` inside your `<p>`.
+4. Escape any `<` or `>` in the content except your wrappers.
+5. Do **not** return JSON, markdown, explanations, or any extra tags.
+"""
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {API_KEY}"
     }
     payload = {
         "model": "asi1-mini",
-        "messages": [{"role": "user", "content": "Give response back in renderable html format to display message on webpage" + question }],
+        "messages": [
+        {"role": "system", "content": system_prompt},
+        {"role": "user",   "content": question.strip()}
+        ],
         "temperature": 0.0,
         "stream": False,
         "max_tokens": 10000
