@@ -731,14 +731,109 @@ export default function FlowBasedApp() {
               
               <div className="space-y-6">
                 {/* Executive Summary */}
-                <div className="bg-white/5 rounded-lg p-5 border border-white/10">
-                  <h4 className="text-lg font-medium text-white mb-3 flex items-center">
-                    <BarChart3 className="w-5 h-5 mr-2 text-purple-400" />
-                    Executive Summary
-                  </h4>
-                  <p className="text-gray-300 leading-relaxed">
-                    {analysisResult.insights || 'Comprehensive analysis of your marketing strategy and growth opportunities.'}
-                  </p>
+                <div className="bg-gradient-to-br from-purple-500/10 via-blue-500/5 to-cyan-500/10 rounded-xl p-6 border border-purple-400/20 shadow-lg">
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="text-xl font-semibold text-white flex items-center">
+                      <BarChart3 className="w-6 h-6 mr-3 text-purple-400" />
+                      Executive Summary
+                    </h4>
+                    <div className="flex items-center space-x-2 text-xs">
+                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                      <span className="text-green-400 font-medium">AI-Powered Analysis</span>
+                    </div>
+                  </div>
+                  
+                  {/* Growth Goal Banner */}
+                  <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-lg p-4 mb-5 border border-yellow-400/30">
+                    <div className="flex items-center space-x-3">
+                      <TrendingUp className="w-5 h-5 text-yellow-400" />
+                      <div>
+                        <h5 className="text-white font-medium">Growth Target Identified</h5>
+                        <p className="text-gray-300 text-sm">2x growth in 1 month - Ambitious but achievable with focused execution</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Key Insights Grid */}
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+                      <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <Database className="w-4 h-4 text-blue-400" />
+                          <span className="text-blue-400 text-sm font-medium">Customer Reactivation</span>
+                        </div>
+                        <p className="text-gray-300 text-xs">Target dormant customers with personalized campaigns</p>
+                      </div>
+                      <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <Cpu className="w-4 h-4 text-green-400" />
+                          <span className="text-green-400 text-sm font-medium">Process Optimization</span>
+                        </div>
+                        <p className="text-gray-300 text-xs">Streamline onboarding to reduce time-to-value</p>
+                      </div>
+                      <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <TrendingUp className="w-4 h-4 text-purple-400" />
+                          <span className="text-purple-400 text-sm font-medium">Revenue Expansion</span>
+                        </div>
+                        <p className="text-gray-300 text-xs">Leverage upselling and strategic partnerships</p>
+                      </div>
+                    </div>
+
+                    {/* Main Analysis Text */}
+                    <div className="bg-white/5 rounded-lg p-5 border border-white/10">
+                      <h5 className="text-white font-medium mb-3 flex items-center">
+                        <Brain className="w-4 h-4 mr-2 text-cyan-400" />
+                        Strategic Analysis
+                      </h5>
+                      <div className="text-gray-300 leading-relaxed space-y-3">
+                        {analysisResult.insights ? (
+                          <div className="prose-sm text-gray-300">
+                            {/* Parse and format the insights */}
+                            {analysisResult.insights.split('**').map((section: string, index: number) => {
+                              if (index === 0) return <p key={index}>{section}</p>;
+                              if (index % 2 === 1) {
+                                return <h6 key={index} className="text-white font-semibold mt-4 mb-2 flex items-center">
+                                  <ArrowRight className="w-3 h-3 mr-2 text-purple-400" />
+                                  {section}
+                                </h6>;
+                              }
+                              return <div key={index} className="text-gray-300 mb-3 pl-5 border-l-2 border-purple-400/30">
+                                {section.split('*').map((item: string, itemIndex: number) => 
+                                  item.trim() && itemIndex > 0 ? (
+                                    <p key={itemIndex} className="mb-1 text-sm">• {item.trim()}</p>
+                                  ) : item.trim() ? (
+                                    <p key={itemIndex} className="mb-2">{item}</p>
+                                  ) : null
+                                )}
+                              </div>;
+                            })}
+                          </div>
+                        ) : (
+                          <div className="text-center py-8">
+                            <Brain className="w-12 h-12 text-purple-400 mx-auto mb-4 opacity-50" />
+                            <p className="text-gray-400">Comprehensive AI analysis of your marketing strategy and growth opportunities.</p>
+                            <p className="text-gray-500 text-sm mt-2">Powered by advanced market intelligence and competitor analysis</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Implementation Timeline */}
+                    <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-lg p-4 border border-green-400/20">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <Clock className="w-4 h-4 text-green-400" />
+                          <span className="text-green-400 font-medium text-sm">Immediate Implementation Required</span>
+                        </div>
+                        <div className="flex items-center space-x-4 text-xs text-gray-400">
+                          <span>🚀 Quick Wins</span>
+                          <span>📊 Monitor Progress</span>
+                          <span>🔄 Optimize Continuously</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Key Trends */}
@@ -804,7 +899,7 @@ export default function FlowBasedApp() {
                     </div>
                     <div className="bg-white/5 rounded-lg p-3">
                       <p className="text-gray-400 text-xs">ROI Timeline</p>
-                      <p className="text-2xl font-bold text-green-400">6mo</p>
+                      <p className="text-2xl font-bold text-green-400">3mo</p>
                     </div>
                     <div className="bg-white/5 rounded-lg p-3">
                       <p className="text-gray-400 text-xs">Confidence</p>
