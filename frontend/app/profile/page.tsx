@@ -14,12 +14,14 @@ import {
   Shield,
   FileText,
   ChevronRight,
-  Zap,
   Lock
 } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function ProfilePage() {
+  const router = useRouter();
+  
   // Mock user data
   const userData = {
     name: 'Alex Johnson',
@@ -101,6 +103,8 @@ export default function ProfilePage() {
 
   const handleLogout = () => {
     console.log('Logging out...');
+    // Redirect to landing page
+    router.push('/landing');
   };
 
   return (
@@ -110,11 +114,16 @@ export default function ProfilePage() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-600/20 backdrop-blur-sm">
-                <Zap className="w-6 h-6 text-blue-400" />
-              </div>
               <div>
-                <h1 className="text-xl font-medium text-gradient">MarketForge AI</h1>
+                <div className="flex items-center space-x-2">
+                  <img 
+                    src="/LogoArrow.png" 
+                    alt="MarketForge AI Logo" 
+                    className="w-6 h-6 opacity-90"
+                    style={{ filter: 'brightness(0) invert(1) opacity(0.9)' }}
+                  />
+                  <h1 className="text-xl font-medium text-gradient">MarketForge AI</h1>
+                </div>
                 <p className="text-sm text-slate-400">Company Account</p>
               </div>
             </div>
@@ -168,7 +177,15 @@ export default function ProfilePage() {
                     <Building2 size={20} className="text-orange-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-white">{companyData.name}</h3>
+                    <div className="flex items-center space-x-2">
+                      <img 
+                        src="/LogoArrow.png" 
+                        alt="MarketForge AI Logo" 
+                        className="w-4 h-4 opacity-90"
+                        style={{ filter: 'brightness(0) invert(1) opacity(0.9)' }}
+                      />
+                      <h3 className="text-xl font-semibold text-white">{companyData.name}</h3>
+                    </div>
                     <div className="flex items-center space-x-3 text-gray-400 mt-1 text-sm">
                       <span>{companyData.industry}</span>
                       <span>•</span>

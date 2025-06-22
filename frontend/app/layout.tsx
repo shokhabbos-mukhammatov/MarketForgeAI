@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   const pathname = usePathname();
   const isScrollable = pathname === '/' || pathname === '/profile';
-  const hideNavigation = pathname === '/docs' || pathname === '/company-details';
+  const hideNavigation = pathname === '/docs' || pathname === '/company-details' || pathname === '/landing';
 
   return (
     <html lang="en" className="dark">

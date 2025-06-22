@@ -4,8 +4,7 @@ import { useState } from 'react';
 import { 
   Building2, 
   Save, 
-  ArrowLeft,
-  Zap
+  ArrowLeft
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -86,7 +85,15 @@ export default function CompanyDetailsPage() {
                 <Building2 className="w-6 h-6 text-blue-400" />
               </div>
               <div>
-                <h1 className="text-xl font-medium text-gradient">Company Details</h1>
+                <div className="flex items-center space-x-2">
+                  <img 
+                    src="/LogoArrow.png" 
+                    alt="MarketForge AI Logo" 
+                    className="w-5 h-5 opacity-90"
+                    style={{ filter: 'brightness(0) invert(1) opacity(0.9)' }}
+                  />
+                  <h1 className="text-xl font-medium text-gradient">MarketForge AI</h1>
+                </div>
                 <p className="text-sm text-slate-400">Update company information</p>
               </div>
             </div>
