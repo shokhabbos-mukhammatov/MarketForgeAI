@@ -29,10 +29,11 @@
 - TypeScript
 
 ### Backend
-- [FastAPI](https://fastapi.tiangolo.com/)
+- Flask
 - Python 3.10+
 - Integration with [Fetch.ai](https://fetch.ai/) via `uAgents`
-- Gemini AI (Google AI Models)
+- Grok
+- ASI:1
 - Agent orchestration system
 - RESTful API
 
@@ -42,10 +43,10 @@
 
 ```
 MarketForgeAI/
-├── backend/                # FastAPI server and agent logic
+├── backend/                # Flask server and agent logic
 │   ├── agents/             # AI agent clients (Fetch, ASI:1, etc.)
 │   ├── utils/              # Environment and shared utilities
-│   ├── app.py              # Entrypoint for FastAPI server
+│   ├── app.py              # Entrypoint for Flask server
 │   ├── routes.py           # API endpoints (e.g., /ask, /agents/register)
 │   └── requirements.txt    # Python dependencies
 │
@@ -70,7 +71,7 @@ MarketForgeAI/
 
 ---
 
-### 1. Backend (FastAPI + uAgents)
+### 1. Backend (Flask + uAgents)
 
 ```bash
 cd backend
@@ -107,7 +108,7 @@ Frontend will start at: `http://localhost:3000`
 - ✅ Roadmap UI with dynamic diagram manipulation
 - ✅ Company profile analyzer
 - ✅ KPI dashboard and real-time analytics (planned)
-- ✅ Agent orchestration via FastAPI
+- ✅ Agent orchestration via Flask
 - ✅ Modular plugin-like agent architecture
 - ✅ Ready-to-use demo mode
 
