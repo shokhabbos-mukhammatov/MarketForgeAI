@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Send, Bot, User, ChevronLeft, ChevronRight, Database, Code, Workflow, Settings, CheckCircle, X, Minus, Plus } from 'lucide-react';
+import ReactMarkdown from 'react-markdown'
+import remarkGfm      from 'remark-gfm'
 
 interface Message {
   id: number;
@@ -472,7 +474,13 @@ export default function AppsPage() {
                           ? 'bg-blue-500/10' 
                           : 'bg-purple-500/10'
                       }`}>
-                        <p className="text-white text-sm leading-relaxed">{message.text}</p>
+                        <div className="prose prose-invert">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {message.text}
+                          </ReactMarkdown>
+                        </div>
+
+
                       </div>
                       <p className="text-gray-500 text-xs mt-1">
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

@@ -1,3 +1,5 @@
 uagents_core.log
+__pycache__/
+*.py[cod]
 
 venv/
