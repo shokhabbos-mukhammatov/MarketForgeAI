@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import AnalyticsCard from '@/components/AnalyticsCard';
+import AnalyticsCard from '../../components/AnalyticsCard';
 
 /* -----------------------------  types  ----------------------------- */
 
@@ -23,9 +23,18 @@ interface JobStatus {
 }
 
 interface Report {
-  trends: any[];
-  competitors: any[];
-  actionPlan: any[];
+  trends: string[];
+  opportunities: string[];
+  actionPlan: {
+    title: string;
+    description: string;
+    priority: number;
+    timeline: string;
+    roi_estimate: string;
+  }[];
+  marketingStrategy: string;
+  competitiveAnalysis: string;
+  productivityTips: string[];
 }
 
 /* ---------------------------  component  --------------------------- */
@@ -46,32 +55,46 @@ export default function MarketForgeWizard() {
   const [report, setReport] = useState<Report | null>(null);
 
   /* ------------------------------------------------------------------
-   * 1️⃣  Create job  (POST /api/analyze)
-   * ------------------------------------------------------------------ */
-  const handleSubmit = async () => {
-    const res = await fetch('/api/analyze', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, website, categories: [task] })
-    });
-    const json = await res.json();
-    setJobId(json.jobId);
-    setStatus({ status: 'queued', progress: 0 });
-    setStep(3); // jump to progress screen
+ * 1️⃣  Create job  (POST /api/analyze)
+ * ------------------------------------------------------------------ */
+const handleSubmit = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, website, categories: task })
+      });
+      
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+      
+      const json = await res.json();
+      setJobId(json.jobId);
+      setStatus({ status: 'queued', progress: 0 });
+      setStep(3); // jump to progress screen
+    } catch (error) {
+      console.error('Analysis failed:', error);
+      alert(`Failed to start analysis: ${error.message}`);
+    }
   };
-
+  
   /* ------------------------------------------------------------------
    * 2️⃣  Poll status/results every 3 s when jobId exists
    * ------------------------------------------------------------------ */
   useEffect(() => {
     if (!jobId) return;
     const timer = setInterval(async () => {
-      const st = await fetch(`/api/analyze/${jobId}/status`).then(r => r.json());
-      setStatus(st);
-      if (st.status === 'completed') {
-        const rpt = await fetch(`/api/analyze/${jobId}/results`).then(r => r.json());
-        setReport(rpt);
-        clearInterval(timer);
+      try {
+        const st = await fetch(`http://localhost:5000/api/analyze/${jobId}/status`).then(r => r.json());
+        setStatus(st);
+        if (st.status === 'completed') {
+          const rpt = await fetch(`http://localhost:5000/api/analyze/${jobId}/results`).then(r => r.json());
+          setReport(rpt);
+          clearInterval(timer);
+        }
+      } catch (error) {
+        console.error('Polling error:', error);
       }
     }, 3000);
     return () => clearInterval(timer);
@@ -160,37 +183,67 @@ export default function MarketForgeWizard() {
                 <div className="grid md:grid-cols-3 gap-4">
                   <AnalyticsCard
                     title="Trends found"
-                    value={report.trends.length.toString()}
+                    value={report.trends?.length?.toString() || "0"}
                     icon="TrendingUp"
                     chartType="bar"
-                    data={report.trends.map(t => t.score)}
+                    data={report.trends?.map((t, i) => i + 1) || [1, 2, 3]}
                   />
                   <AnalyticsCard
-                    title="Competitors"
-                    value={report.competitors.length.toString()}
+                    title="Opportunities"
+                    value={report.opportunities?.length?.toString() || "0"}
                     icon="Users"
                     chartType="bar"
-                    data={report.competitors.map(c => c.shareOfVoice * 100)}
+                    data={report.opportunities?.map((o, i) => i + 1) || [1, 2, 3]}
                   />
                   <AnalyticsCard
                     title="Action items"
-                    value={report.actionPlan.length.toString()}
+                    value={report.actionPlan?.length?.toString() || "0"}
                     icon="ListChecks"
                     chartType="bar"
-                    data={report.actionPlan.map(a => 1)}
+                    data={report.actionPlan?.map((a, i) => i + 1) || [1, 2, 3]}
                   />
                 </div>
 
-                {/* Detailed list */}
-                <h3 className="font-semibold mt-8">Top Action Items</h3>
-                <ul className="list-disc pl-5 space-y-2">
-                  {report.actionPlan.map((a, i) => (
-                    <li key={i}>
-                      <b>{a.title}</b>
-                      {a.description ? ` — ${a.description}` : ''}
-                    </li>
-                  ))}
-                </ul>
+               
+                {/* Enhanced Action Items */}
+                <div className="space-y-6 mt-8">
+                  <div>
+                    <h3 className="font-semibold text-lg mb-3">🎯 Top Action Items</h3>
+                    <div className="space-y-3">
+                      {report.actionPlan?.map((action, i) => (
+                        <div key={i} className="glass rounded-lg p-4 border border-white/20">
+                          <div className="flex justify-between items-start mb-2">
+                            <h4 className="font-medium text-white">{action.title}</h4>
+                            <span className="text-green-400 text-sm font-medium">
+                              ROI: {action.roi_estimate}
+                            </span>
+                          </div>
+                          <p className="text-gray-300 text-sm mb-2">{action.description}</p>
+                          <div className="flex justify-between text-xs text-gray-400">
+                            <span>Priority: {action.priority}</span>
+                            <span>Timeline: {action.timeline}</span>
+                          </div>
+                        </div>
+                      )) || <p>No action items available</p>}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold text-lg mb-3">📈 Market Trends</h3>
+                    <ul className="list-disc pl-5 space-y-1">
+                      {report.trends?.map((trend, i) => (
+                        <li key={i} className="text-gray-300">{trend}</li>
+                      )) || <li>No trends available</li>}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold text-lg mb-3">🚀 Marketing Strategy</h3>
+                    <p className="text-gray-300 bg-white/5 rounded-lg p-4">
+                      {report.marketingStrategy || "No marketing strategy available"}
+                    </p>
+                  </div>
+                </div>
               </>
             )}
           </CardContent>

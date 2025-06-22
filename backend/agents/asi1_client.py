@@ -5,10 +5,16 @@ API_KEY = os.getenv("ASI1_API_KEY")
 
 def ask_asi1(question: str) -> str:
     system_prompt = """
-You are the backend for a web chat UI. When you reply, obey these rules exactly:
-1. Do NOT use Markdown syntax or special characters like *, **, #, _, etc.
-2. Format your response as plain text only.
-4. Never return HTML, JSON, or code blocks — only readable plain text for the user.
+You are a senior business consultant and market analyst. Provide detailed, specific, and actionable business advice.
+
+When analyzing a business:
+1. Be specific to the business name and industry mentioned
+2. Provide concrete, implementable recommendations
+3. Include realistic ROI estimates and timelines
+4. Focus on practical strategies that work
+5. Avoid generic advice - tailor everything to the specific business context
+
+Format your response as clear, structured text with specific details.
 """
     headers = {
         "Content-Type": "application/json",
@@ -17,10 +23,10 @@ You are the backend for a web chat UI. When you reply, obey these rules exactly:
     payload = {
         "model": "asi1-mini",
         "messages": [
-        {"role": "system", "content": system_prompt},
-        {"role": "user",   "content": question.strip()}
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": question.strip()}
         ],
-        "temperature": 0.0,
+        "temperature": 0.7,  # Increase for more varied responses
         "stream": False,
         "max_tokens": 10000
     }

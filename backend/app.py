@@ -34,7 +34,7 @@ logger = logging.getLogger(__name__)
 def create_enhanced_app():
     """Create Flask app building on your existing structure"""
     app = Flask(__name__)
-    CORS(app)
+    CORS(app, origins=["http://localhost:3000"])
     
     # Register your enhanced routes
     register_enhanced_routes(app)
