@@ -1,7 +1,8 @@
-flask
-flask_cors
-uagents_core
-uagents
-fetchai
-dotenv
-requests
+flask==3.0.0
+flask_cors==4.0.0
+uagents==0.13.0
+fetchai==0.1.0
+python-dotenv==1.0.0
+requests==2.31.0
+pydantic==2.5.0
+asyncio==3.4.3
