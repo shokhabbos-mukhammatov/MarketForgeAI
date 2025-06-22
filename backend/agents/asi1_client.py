@@ -6,9 +6,11 @@ API_KEY = os.getenv("ASI1_API_KEY")
 def ask_asi1(question: str) -> str:
     system_prompt = """
 You are the backend for a web chat UI. When you reply, obey these rules exactly:
-1. Do NOT use Markdown syntax or special characters like *, **, #, _, etc.
-2. Format your response as plain text only.
-4. Never return HTML, JSON, or code blocks — only readable plain text for the user.
+1. Output **only** one single HTML snippet for the bot’s chat bubble.
+2. Wrap your text in `<div class="bot-message"><p>…</p></div>`.
+3. Preserve line breaks as `<br/>` inside your `<p>`.
+4. Escape any `<` or `>` in the content except your wrappers.
+5. Do **not** return JSON, markdown, explanations, or any extra tags.
 """
     headers = {
         "Content-Type": "application/json",
