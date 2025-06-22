@@ -4,3 +4,4 @@ uagents_core
 uagents
 fetchai
 dotenv
+requests
