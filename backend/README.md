@@ -24,7 +24,7 @@ This document provides detailed instructions on the **MarketForgeAI Flask Backen
 The Flask backend serves as a lightweight bridge to:
 
 - Receive HTTP requests from the React frontend
-- Forward user queries to **ASI****:One** (asi1.ai) for chat completions
+- Forward user queries to **ASI** **:One** (asi1.ai) for chat completions
 - Register and communicate with Agentverse agents via **uAgents**
 
 All environment configuration and external‑service integration logic is encapsulated in dedicated modules for maintainability and clarity.
@@ -32,9 +32,10 @@ All environment configuration and external‑service integration logic is encaps
 ## Project Structure
 
 ```plaintext
-marketforgeai-backend/
+backend/
 ├── app.py                   # Application entrypoint
 ├── requirements.txt         # Python dependencies
+├── routes.py                # API routes
 ├── agents/                  # AI integration clients
 │   ├── __init__.py
 │   ├── asi1_client.py       # ASI:One API wrapper
@@ -56,7 +57,7 @@ marketforgeai-backend/
 2. Add the following entries:
    ```dotenv
    ASI1_API_KEY=your_asi1_api_key
-   AGENTVERSE_KEY=your_agentverse_api_key
+   AGENTVERSE_API_KEY=your_agentverse_api_key
    ```
 3. The `env_loader.py` module locates and loads these values automatically, and raises an error if any are missing.
 
@@ -66,7 +67,7 @@ marketforgeai-backend/
 
    ```bash
    git clone https://github.com/shokhabbos-mukhammatov/MarketForgeAI.git
-   cd MarketForgeAI/marketforgeai-backend
+   cd MarketForgeAI/backend
    ```
 
 2. **(Optional) Create a virtual environment**:
@@ -181,12 +182,13 @@ Use **curl**, **Postman**, or **Insomnia**:
 Defined in `requirements.txt`:
 
 ```text
-Flask==2.3.2
-flask-cors==4.0.0
-python-dotenv==1.0.0
-pydantic==2.1.1
-requests==2.31.0
-uagents==0.1.0
+flask
+flask_cors
+uagents_core
+uagents
+fetchai
+dotenv
+requests
 ```
 
 ## Troubleshooting
